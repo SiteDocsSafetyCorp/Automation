@@ -31,7 +31,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="logs\Logs.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Update="testCredentials\LoginInfo.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
