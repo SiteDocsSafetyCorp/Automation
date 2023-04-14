@@ -93,6 +93,7 @@ StyleCopReport.xml
 *.vspscc
 *.vssscc
 .builds
+.log
 *.pidb
 *.scc
 

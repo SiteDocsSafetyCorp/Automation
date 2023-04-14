@@ -30,7 +30,7 @@
     <Compile Update="implementation\LoginImpl.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="logs\Logs.cs">
+    <Compile Update="reports\Logs.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Update="testCredentials\LoginInfo.cs">
