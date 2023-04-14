@@ -10,7 +10,7 @@
                  sh 'dotnet test --filter Category="LoginTest"'
              }
          }
-         # ...
+            browserStackReportPublisher 'automate'
        }
      }
    }
