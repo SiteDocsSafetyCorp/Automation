@@ -47,7 +47,6 @@ Generated\ Files/
 
 # NUnit
 *.VisualState.xml
-TestResult.xml
 nunit-*.xml
 
 # Build Results of an ATL Project
@@ -90,12 +89,11 @@ StyleCopReport.xml
 *.tmp
 *.tmp_proj
 *_wpftmp.csproj
-*.log
 *.vspscc
 *.vssscc
 .builds
+.log
 *.pidb
-*.svclog
 *.scc
 
 # Chutzpah Test files
