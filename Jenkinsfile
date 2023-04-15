@@ -3,8 +3,9 @@ pipeline {
    stages {
       stage('setup') {
          steps {
-            browserstack(credentialsId: '28f04091-7d5e-4db3-92f6-ec76a46d263e') {
-               echo "hello"
+            browserstack(credentialsId: 'dw471drf-db68-4r23b-969d-24r3r32f') {
+               sh 'dotnet build'
+                 sh 'dotnet test --filter Category="LoginTest"'
             }
          }
       }
