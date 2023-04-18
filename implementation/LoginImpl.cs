@@ -41,8 +41,9 @@ namespace SiteDocsAutomationProject.implementation
             userActions.ClickElement(driver, loginButton);
 
             if (username == LoginInfo.APP_ACCESS_USER)
-            {
-                Assert.IsTrue(userActions.WaitUntilElementIsDisplayed(driver, accessDeniedPage));
+            { 
+                // this will fail for jenkins demo
+                Assert.IsTrue(userActions.WaitUntilElementIsDisplayed(driver, panelAdminLeftNavMenu));
                 logs.Logs.Info(username + " is redirected to Denied Access page because it doesn't have permissions!");
                 return;
             }

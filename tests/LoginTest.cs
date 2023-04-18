@@ -36,7 +36,7 @@ namespace SiteDocsAutomationProject.tests
         }
 
 
-        [Test, Order(1), Description("This test case tests if Only App Access user can log in to Admin Panel!")]
+        [Test, Order(1), Category("Failed"), Description("This test case tests if Only App Access user can log in to Admin Panel!")]
         public void appAccessUserToAdminPanel()
 
         {
@@ -45,7 +45,7 @@ namespace SiteDocsAutomationProject.tests
         }
 
 
-        [Test, Order(2), Description("This test case tests if Admin user can log in to Admin Panel!")]
+        [Test, Order(2), Category("OneTest"), Description("This test case tests if Admin user can log in to Admin Panel!")]
         public void adminUserToAdminPanel()
 
         {
