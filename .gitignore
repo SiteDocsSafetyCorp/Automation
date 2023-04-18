@@ -93,10 +93,11 @@ StyleCopReport.xml
 *.vspscc
 *.vssscc
 .builds
-.config
+*.config
 .log
 *.pidb
 *.scc
+.yml
 
 # Chutzpah Test files
 _Chutzpah*
