@@ -14,7 +14,6 @@ Automation selenium project contains all of our automated tests that is stored a
 ## Getting Started
 
 
-s
 ### Prerequisites
 
 * [Install Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)
