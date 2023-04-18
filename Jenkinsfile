@@ -1,27 +1,18 @@
-
 pipeline {
     agent any
     stages {
         stage('Build') {
             steps {
-                dotnetCoreBuild(path: 'SiteDocsAutomationProject.csproj')
+                sh 'dotnet restore'
+                sh 'dotnet build'
             }
         }
         stage('Test') {
             steps {
-                sh 'echo "Starting tests..."'
-                script {
-                    def nunitCmd = "dotnet test SiteDocsAutomationProject.csproj --filter 'TestCategory=LoginTest'"
-                    def nunitResults = sh(script: nunitCmd, returnStdout: true)
-                    writeFile file: 'nunit-results.xml', text: nunitResults
+                browserstack(credentialsId: 'e4869b41-3f31-438b-9c4b-a6d72748378f', buildName: 'My Jenkins Build', projectName: 'My Jenkins Project', debug: 'false') {
+                    sh 'dotnet test --logger:"trx;LogFileName=testresults.xml"'
                 }
-                junit 'nunit-results.xml'
-            }
-        }
-        stage('Publish') {
-            steps {
-                sh 'echo "Publishing results..."'
-                archiveArtifacts artifacts: '**/bin/*.dll'
+                junit 'testresults.xml'
             }
         }
     }
