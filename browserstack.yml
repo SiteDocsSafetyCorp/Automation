@@ -1,7 +1,7 @@
 userName: lorikhalili_uERdax
 accessKey: kfByopMkLwsLKeG4fz5j
 projectName: SiteDocs local
-buildName: Local builddot  # Set `buildName` as the name of the job / testsuite being run
+buildName: Local build  # Set `buildName` as the name of the job / testsuite being run
 buildIdentifier: '#${BUILD_NUMBER}' # Supports strings along with either/both ${expression}
 
 platforms:
