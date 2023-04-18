@@ -10,14 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\Lorik\.nuget\packages\allure.commons\3.5.0.73\contentFiles\any\netstandard2.0\allureConfig.Template.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Allure.Commons" Version="3.5.0.73" />
     <PackageReference Include="BrowserStack.TestAdapter" Version="0.0.3" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit.Allure" Version="1.2.0.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.3.0" />
-    <PackageReference Include="NUnit.Analyzers" Version="3.5.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.6.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
     <PackageReference Include="Selenium.Support" Version="4.8.2" />
     <PackageReference Include="Selenium.WebDriver" Version="4.8.2" />
@@ -42,12 +49,6 @@
     <Compile Update="utilities\UserDriverActions.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="C:\Users\Lorik\.nuget\packages\allure.commons\3.5.0.73\contentFiles\any\netstandard2.0\allureConfig.Template.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
