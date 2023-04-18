@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/lorikSiteDocs/SiteDocsAutomationProject.git']]])
-            }
-        }
         stage('Restore packages') {
             steps {
                 sh 'dotnet restore'
@@ -17,12 +12,16 @@ pipeline {
             }
         }
         stage('Test') {
+            environment {
+                BROWSERSTACK_USERNAME = credentials('lorikhalili_uERdax')
+                BROWSERSTACK_ACCESS_KEY = credentials('kfByopMkLwsLKeG4fz5j')
+            }
             steps {
-                sh 'dotnet test --logger:"trx;LogFileName=testresults.xml"'
+                sh 'dotnet test --filter "TestCategory=LoginTest"'
             }
             post {
                 always {
-                    junit 'testresults.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'TestResults', reportFiles: 'index.html', reportName: 'BrowserStack Test Report'])
                 }
             }
         }
