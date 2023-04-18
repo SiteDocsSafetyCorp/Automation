@@ -1,29 +1,19 @@
 pipeline {
-    agent any
-    stages {
-        stage('Restore packages') {
-            steps {
-                sh 'dotnet restore'
+   agent any
+   tools {nodejs "node"}
+
+   stages {
+      stage('setup') {
+         steps {
+            browserstack(credentialsId: 'e4869b41-3f31-438b-9c4b-a6d72748378f') {
+               // some example test commands ...
+               sh 'dotnet restore'
+               sh 'dotnet build'
+                sh 'dotnet test --filter=LoginTest'
             }
-        }
-        stage('Build') {
-            steps {
-                sh 'dotnet build'
-            }
-        }
-        stage('Test') {
-            environment {
-                BROWSERSTACK_USERNAME = credentials('lorikhalili_uERdax')
-                BROWSERSTACK_ACCESS_KEY = credentials('kfByopMkLwsLKeG4fz5j')
-            }
-            steps {
-                sh 'dotnet test --filter "TestCategory=LoginTest"'
-            }
-            post {
-                always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'TestResults', reportFiles: 'index.html', reportName: 'BrowserStack Test Report'])
-                }
-            }
-        }
+             // Enable reporting in Jenkins
+             browserStackReportPublisher 'automate'
+         }
+      }
     }
-}
+  }
