@@ -1,14 +1,28 @@
+
 pipeline {
-   agent any
-   stages {
-      stage('setup') {
-         steps {
-            browserstack(credentialsId: 'dw471drf-db68-4r23b-969d-24r3r32f') {
-               bat 'dotnet build'
-               bat 'dotnet build'
-                 bat ' dotnet test C:\Users\Lorik\Desktop\automation\SiteDocsAutomationProject\bin\Debug\net6.0\SiteDocsAutomationProject.dll'
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                dotnetCoreBuild(path: 'SiteDocsAutomationProject.csproj')
             }
-         }
-      }
+        }
+        stage('Test') {
+            steps {
+                sh 'echo "Starting tests..."'
+                script {
+                    def nunitCmd = "dotnet test SiteDocsAutomationProject.csproj --filter 'TestCategory=LoginTest'"
+                    def nunitResults = sh(script: nunitCmd, returnStdout: true)
+                    writeFile file: 'nunit-results.xml', text: nunitResults
+                }
+                junit 'nunit-results.xml'
+            }
+        }
+        stage('Publish') {
+            steps {
+                sh 'echo "Publishing results..."'
+                archiveArtifacts artifacts: '**/bin/*.dll'
+            }
+        }
     }
-  }
+}
