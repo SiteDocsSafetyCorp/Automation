@@ -20,7 +20,7 @@ namespace SiteDocsAutomationProject.tests
     [Parallelizable(ParallelScope.Fixtures)]
     [AllureNUnit]
     [AllureSuite("Login Suite")]
-    [Category("Login")]
+    [Category("LoginSuite")]
 
     public class LoginTest : InitializeUserDriver
 
@@ -47,7 +47,7 @@ namespace SiteDocsAutomationProject.tests
         }
 
 
-        [Test, Order(2), Description("This test case tests if Admin user can log in to Admin Panel!"), Category("one")]
+        [Test, Order(2), Description("This test case tests if Admin user can log in to Admin Panel!")]
         public void adminUserToAdminPanel()
 
         {
