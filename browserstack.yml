@@ -1,25 +1,25 @@
 userName: lorikhalili_uERdax
 accessKey: kfByopMkLwsLKeG4fz5j
-projectName: SiteDocs local
+projectName: SiteDocs
 buildName: Local build  # Set `buildName` as the name of the job / testsuite being run
 buildIdentifier: '#${BUILD_NUMBER}' # Supports strings along with either/both ${expression}
 
 platforms:
   - os: Windows
-    osVersion: 10
-    browserName: Chrome
-    browserVersion: latest
-  - os: Windows
-    osVersion: 10
-    browserName: Firefox
-    browserVersion: 102.0
-  - os: OS X
-    osVersion: Big Sur
+    osVersion: 11
     browserName: Chrome
     browserVersion: latest
   - os: Windows
     osVersion: 11
     browserName: Edge
+    browserVersion: latest
+  - os: OS X
+    osVersion: Big Sur
+    browserName: Safari
+    browserVersion: latest
+  - os: OS X
+    osVersion: Big Sur
+    browserName: Chrome
     browserVersion: latest
   
 # =======================

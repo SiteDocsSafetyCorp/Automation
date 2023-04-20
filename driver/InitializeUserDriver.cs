@@ -1,4 +1,5 @@
 ﻿using Allure.Commons;
+using NUnit.Framework;
 using NUnit.Allure.Core;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium.Chrome;

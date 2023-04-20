@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using NUnit.Framework;
 using SiteDocsAutomationProject.testCredentials;
 using SiteDocsAutomationProject.utilities;
 

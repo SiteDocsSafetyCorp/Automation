@@ -1,5 +1,6 @@
 ﻿using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
+using NUnit.Framework;
 using SiteDocsAutomationProject.driver;
 using SiteDocsAutomationProject.implementation;
 using SiteDocsAutomationProject.testCredentials;
