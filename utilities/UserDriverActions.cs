@@ -9,15 +9,7 @@ namespace SiteDocsAutomationProject.utilities
 {
     public class UserDriverActions
     {
-        private IWebElement fluentWit(IWebDriver driver, By element)
-    {
-        DefaultWait<IWebDriver> fluentWait = new DefaultWait<IWebDriver>(driver);
-        fluentWait.Timeout = TimeSpan.FromSeconds(5);
-        fluentWait.PollingInterval = TimeSpan.FromMilliseconds(500);
-        IWebElement locator = fluentWait.Until(driver
-                => driver.FindElement(element));
-        return locator;
-    }
+        
 
     public void SendInput(IWebDriver driver, By element, string text)
     {
@@ -26,7 +18,8 @@ namespace SiteDocsAutomationProject.utilities
         try
         {
 
-            fluentWit(driver, element).SendKeys(text);
+                WaitUntilElementIsDisplayed(driver, element);
+                driver.FindElement(element).SendKeys(text);
             logs.Logs.Info(text + " --  text was successfully send!");
 
         }
@@ -46,7 +39,8 @@ namespace SiteDocsAutomationProject.utilities
         try
         {
 
-            fluentWit(driver, element).Click();
+            WaitUntilElementIsDisplayed(driver, element);
+                driver.FindElement(element).Click();
             logs.Logs.Info("User has successfully clicked the button!");
 
         }
@@ -65,7 +59,7 @@ namespace SiteDocsAutomationProject.utilities
         try
         {
 
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             return wait.Until(drv => drv.FindElement(locator).Displayed);
         }
         catch (NoSuchElementException e)
