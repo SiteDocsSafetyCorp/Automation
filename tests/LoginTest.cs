@@ -47,7 +47,7 @@ namespace SiteDocsAutomationProject.tests
         }
 
 
-        [Test, Order(2), Description("This test case tests if Admin user can log in to Admin Panel!")]
+        [Test, Order(2), Description("This test case tests if Admin user can log in to Admin Panel!"), Category("one")]
         public void adminUserToAdminPanel()
 
         {
