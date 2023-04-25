@@ -38,7 +38,7 @@ namespace SiteDocsAutomationProject.tests
 
 
         [Test, Order(1), Description("This test case tests if Only App Access user can log in to Admin Panel!"),
-            AllureLink("https://sitedocs.testrail.io/index.php?/cases/view/4667&group_by=cases:section_id&group_order=asc&display_deleted_cases=0&group_id=371")]
+            AllureLink("https://sitedocs.testrail.io/index.php?/cases/view/4667&group_by=cases:section_id&group_order=asc&display_deleted_cases=0&group_id=371"), Category("Test")]
         public void appAccessUserToAdminPanel()
 
         {
