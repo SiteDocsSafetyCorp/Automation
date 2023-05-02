@@ -36,20 +36,20 @@ namespace SiteDocsAutomationProject.implementation
         public void LoginWithDifferentUsers(String username, String password)
         {
 
-            userActions.SendInput(driver, usernameHolder, username);
-            userActions.ClickElement(driver, nextButton);
-            userActions.SendInput(driver, passwordHolder, password);
-            userActions.ClickElement(driver, loginButton);
+            userActions.SendInput(driver, usernameHolder, username, 10);
+            userActions.ClickElement(driver, nextButton, 10);
+            userActions.SendInput(driver, passwordHolder, password, 10);
+            userActions.ClickElement(driver, loginButton, 10);
 
             if (username == LoginInfo.APP_ACCESS_USER)
             { 
                 // this will fail for jenkins demo
-                Assert.IsTrue(userActions.WaitUntilElementIsDisplayed(driver, accessDeniedPage));
+                Assert.IsTrue(userActions.WaitUntilElementIsDisplayed(driver, accessDeniedPage, 20));
                 logs.Logs.Info(username + " is redirected to Denied Access page because it doesn't have permissions!");
                 return;
             }
 
-            Assert.IsTrue(userActions.WaitUntilElementIsDisplayed(driver, panelAdminLeftNavMenu));
+            Assert.IsTrue(userActions.WaitUntilElementIsDisplayed(driver, panelAdminLeftNavMenu, 20));
             logs.Logs.Info(username + " has navigated to Admin Panel!");
 
         }

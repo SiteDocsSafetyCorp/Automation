@@ -5,6 +5,8 @@ using NUnit.Framework.Interfaces;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 /**
  * This class serves to open browser and go to Admin Panel
@@ -19,15 +21,21 @@ namespace SiteDocsAutomationProject.driver
     [TestFixture]
     public class InitializeUserDriver
     {
-
         public IWebDriver driver;
 
+        // Default env is Stage Panel
+        private const string environment = "stagePanel";
 
         [SetUp]
         public void Initialize()
 
         {
-            // This is used to initialize driver!
+            // This is used to retrieve data from json file!
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .AddJsonFile("appSettings.json", optional: false)
+                .Build();
+
+            // This is used to initialize BrowserStack driver!
             ChromeOptions capability = new ChromeOptions
             {
                 BrowserVersion = "latest"
@@ -39,12 +47,13 @@ namespace SiteDocsAutomationProject.driver
               capability
             );
 
-            // This is used to set driver properties and navigate to homepage!
+            // This is used to set driver properties and navigate to SiteDocs homepage!
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
-            driver.Navigate().GoToUrl("https://dev-panel.sitedocs.com/");
-            Assert.IsTrue(driver.FindElement(By.ClassName("logo-wrapper")).Displayed);
+            driver.Navigate().GoToUrl(configuration.GetSection(environment).Value);
             logs.Logs.StartOfTest();
+            logs.Logs.Info(environment.ToUpper() + " environment was selected!");
+            Assert.IsTrue(driver.FindElement(By.ClassName("logo-wrapper")).Displayed);
             logs.Logs.Info("User was successfully navigate to Home Page!");
 
 
