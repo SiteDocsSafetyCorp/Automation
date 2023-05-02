@@ -23,5 +23,13 @@ Automation selenium project contains all of our automated tests that is stored a
 ### Run test
 * Install Git in your local machine
 * Open terminal and type 'git clone https://github.com/lorikSiteDocs/SiteDocsAutomationProject.git' 
-* After clone is done you can open project with Visual Studio 
-* All Tests within the project using annotation [TEST] will be listed in Test Explorer 
+* After clone is done you can open project with Visual Studio or click on "SiteDocsAutomationProject.sln" file
+* All Tests within the project using annotation [TEST] will be listed in Test Explorer
+* To run all tests from cmd use this command "dotnet test" 
+* To run tests with specific category use this command "dotnet test --filter Category=LoginTest"
+
+### Note for local testing
+* Update userName and accessKey in browserstack.yml with your credentials
+* Remove other OS than Chrome so it won't take to long to run tests locally
+* After running first test, allure-results folder will be created with test results
+* To run allure report from cmd use this command "allure serve bin\Debug\net6.0\allure-results"
