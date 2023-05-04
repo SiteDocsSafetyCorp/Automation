@@ -6,7 +6,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 
 /**
  * This class serves to open browser and go to Admin Panel

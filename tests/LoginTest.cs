@@ -30,39 +30,57 @@ namespace SiteDocsAutomationProject.tests
         private LoginImpl loginImpl;
 
         // This is used to setup common steps to prevent duplicated code
-        private void CommonSteps(String user)
+        private void CommonSteps(String user, String password)
         {
             loginImpl = new LoginImpl(driver);
-            loginImpl.LoginWithDifferentUsers(user, LoginInfo.PASSWORD);
+            loginImpl.LoginWithDifferentUsers(user, password);
         }
 
 
-        [Test, Order(1), Description("This test case tests if Only App Access user can log in to Admin Panel!"),
-            AllureLink("https://sitedocs.testrail.io/index.php?/cases/view/4667&group_by=cases:section_id&group_order=asc&display_deleted_cases=0&group_id=371")]
-        public void appAccessUserToAdminPanel()
+        [Test, Order(1), Description("This test case tests if Only App Access user can log in to Admin Panel!")]
+        public void AapAccessUserToAdminPanel()
 
         {
-            CommonSteps(LoginInfo.APP_ACCESS_USER);
+            CommonSteps(LoginInfo.APP_ACCESS_USER, LoginInfo.PASSWORD);
 
         }
 
 
         [Test, Order(2), Description("This test case tests if Admin user can log in to Admin Panel!")]
-        public void adminUserToAdminPanel()
+        public void AdminUserToAdminPanel()
 
         {
-            CommonSteps(LoginInfo.ADMIN);
+            CommonSteps(LoginInfo.ADMIN, LoginInfo.PASSWORD);
 
         }
 
 
         [Test, Order(3), Description("This test case tests if Super Admin user can log in to Admin Panel!")]
-        public void superAdminUserToAdminPanel()
+        public void SuperAdminUserToAdminPanel()
 
         {
-            CommonSteps(LoginInfo.SUPER_ADMIN);
+            CommonSteps(LoginInfo.SUPER_ADMIN, LoginInfo.PASSWORD);
 
         }
 
+        [Test, Order(4), Description("This test case tests if user can login with wrong email!")]
+        public void loginWithWrongUsername()
+        {
+            CommonSteps(LoginInfo.WRONG_USERNAME, LoginInfo.PASSWORD);
+        }
+        
+        [Test, Order(5), Description("This test case tests if user can login with wrong password!")]
+        public void loginWithWrongPassword()
+        {
+            CommonSteps(LoginInfo.SUPER_ADMIN, LoginInfo.WRONG_USERNAME);
+        }
+
+        [Test, Order(6), Description("This test case tests if Super Admin user can change password!")]
+        public void ChangePassword()
+        {
+            CommonSteps(LoginInfo.SUPER_ADMIN, LoginInfo.PASSWORD);
+            loginImpl.ChangePassword();
+
+        }
     }
 }

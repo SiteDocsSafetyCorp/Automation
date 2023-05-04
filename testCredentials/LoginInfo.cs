@@ -11,5 +11,7 @@ namespace SiteDocsAutomationProject.testCredentials
         const string ADMIN = "lorik+AutomationAdmin@sitedocs.com";
         const string SUPER_ADMIN = "lorik+AutomationSuperAdmin@sitedocs.com";
         const string PASSWORD = "Automation321";
+        const string WRONG_USERNAME = "wrongemail@gmail.com";
+        const string WRONG_PASSWORD = "Wrongwrong";
     }
 }

@@ -31,7 +31,7 @@ namespace SiteDocsAutomationProject.logs
 
         public static void Error(String message)
         {
-            Log.Error(message);
+            Log.Error("\t\t ERROR: " + message);
         }
 
 
