@@ -6,6 +6,11 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
+using WebDriverManager.Helpers;
 
 /**
  * This class serves to open browser and go to Admin Panel
@@ -24,6 +29,10 @@ namespace SiteDocsAutomationProject.driver
 
         // Default env is Stage Panel
         private const string environment = "stagePanel";
+        // Default runType is Remote
+        private const string runType = "remote";
+        // Default browser is Chrome
+        private const string browser = "chrome";
 
         [SetUp]
         public void Initialize()
@@ -34,17 +43,51 @@ namespace SiteDocsAutomationProject.driver
                 .AddJsonFile("appSettings.json", optional: false)
                 .Build();
 
-            // This is used to initialize BrowserStack driver!
-            ChromeOptions capability = new ChromeOptions
+            if (runType.Equals("remote"))
             {
-                BrowserVersion = "latest"
-            };
-            capability.AddArgument("--incognito");
-            capability.AddAdditionalOption("bstack:options", capability);
-            driver = new RemoteWebDriver(
-              new Uri("http://localhost:4444/wd/hub/"),
-              capability
-            );
+                // This is used to initialize BrowserStack driver!
+                ChromeOptions capability = new ChromeOptions
+                {
+                    BrowserVersion = "latest"
+                };
+                capability.AddArgument("--incognito");
+                capability.AddAdditionalOption("bstack:options", capability);
+                driver = new RemoteWebDriver(
+                  new Uri("http://localhost:4444/wd/hub/"),
+                  capability
+                );
+            }
+            else if (runType.Equals("local"))
+            {
+                switch (browser)
+                {
+                    case "chrome":
+                        ChromeOptions options = new ChromeOptions();
+                        options.AddArgument("--incognito");
+                        new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
+                        driver = new ChromeDriver(options);
+                        break;
+                    case "firefox":
+                        FirefoxOptions fOptions = new FirefoxOptions();
+                        fOptions.AddArgument("--incognito");
+                        new DriverManager().SetUpDriver(new FirefoxConfig(), VersionResolveStrategy.MatchingBrowser);
+                        driver = new FirefoxDriver(fOptions);
+                        break;
+                    case "edge":
+                        EdgeOptions eOptions = new EdgeOptions();
+                        eOptions.AddArgument("--incognito");
+                        new DriverManager().SetUpDriver(new EdgeConfig(), VersionResolveStrategy.MatchingBrowser);
+                        driver = new EdgeDriver(eOptions);
+                        break;
+                    default:
+                        Assert.Fail("Select one of the supported Browser are: Chrome, Firefox, Edge");
+                        break;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("RunType not specified!");
+            }
 
             // This is used to set driver properties and navigate to SiteDocs homepage!
             driver.Manage().Window.Maximize();
