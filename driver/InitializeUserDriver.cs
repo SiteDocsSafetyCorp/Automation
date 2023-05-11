@@ -30,7 +30,7 @@ namespace SiteDocsAutomationProject.driver
         // Default env is Stage Panel
         private const string environment = "stagePanel";
         // Default runType is Remote
-        private const string runType = "remote";
+        private const string runType = "local";
         // Default browser is Chrome
         private const string browser = "chrome";
 
