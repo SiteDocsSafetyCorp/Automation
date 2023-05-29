@@ -6,8 +6,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using Microsoft.Extensions.Configuration;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Firefox;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
@@ -31,8 +29,6 @@ namespace SiteDocsAutomationProject.driver
         private const string environment = "stagePanel";
         // Default runType is Remote
         private const string runType = "local";
-        // Default browser is Chrome
-        private const string browser = "chrome";
 
         [SetUp]
         public void Initialize()
@@ -59,30 +55,32 @@ namespace SiteDocsAutomationProject.driver
             }
             else if (runType.Equals("local"))
             {
-                switch (browser)
-                {
-                    case "chrome":
-                        ChromeOptions options = new ChromeOptions();
-                        options.AddArgument("--incognito");
-                        new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
-                        driver = new ChromeDriver(options);
-                        break;
-                    case "firefox":
-                        FirefoxOptions fOptions = new FirefoxOptions();
-                        fOptions.AddArgument("--incognito");
-                        new DriverManager().SetUpDriver(new FirefoxConfig(), VersionResolveStrategy.MatchingBrowser);
-                        driver = new FirefoxDriver(fOptions);
-                        break;
-                    case "edge":
-                        EdgeOptions eOptions = new EdgeOptions();
-                        eOptions.AddArgument("--incognito");
-                        new DriverManager().SetUpDriver(new EdgeConfig(), VersionResolveStrategy.MatchingBrowser);
-                        driver = new EdgeDriver(eOptions);
-                        break;
-                    default:
-                        Assert.Fail("Select one of the supported Browser are: Chrome, Firefox, Edge");
-                        break;
-                }
+
+                Dictionary<string, object> profile = new Dictionary<string, object>();
+
+                // 0 - Default, 1 - Allow, 2 - Block
+                profile.Add("profile.default_content_setting_values.geolocation", 1);
+
+                Dictionary<string, object> chromeOptions = new Dictionary<string, object>();
+
+                chromeOptions.Add("prefs", profile);
+
+                ChromeOptions options = new ChromeOptions();
+                
+                options.AddArgument("--start-maximized");
+                options.AddArgument("--test-type");
+                options.AddArgument("--enable-strict-powerful-feature-restrictions");
+                options.AddArgument("--disable-notifications");
+                options.AddArgument("--enable-features=Geolocation");
+                options.AddArgument("--disable-popup-blocking");
+                options.AddArgument("--delete-cookies");
+
+
+                // Set the desired geolocation coordinates
+                options.AddArgument("--geolocation=42.662914,21.165503");
+                new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
+                driver = new ChromeDriver(options);
+                      
             }
             else
             {
@@ -91,7 +89,7 @@ namespace SiteDocsAutomationProject.driver
 
             // This is used to set driver properties and navigate to SiteDocs homepage!
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             driver.Navigate().GoToUrl(configuration.GetSection(environment).Value);
             logs.Logs.StartOfTest();
             logs.Logs.Info(environment.ToUpper() + " environment was selected!");

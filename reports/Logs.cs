@@ -28,12 +28,5 @@ namespace SiteDocsAutomationProject.logs
         {
             Log.Info(message);
         }
-
-        public static void Error(String message)
-        {
-            Log.Error("\t\t ERROR: " + message);
-        }
-
-
     }
 }
