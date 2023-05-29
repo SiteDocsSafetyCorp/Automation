@@ -56,15 +56,6 @@ namespace SiteDocsAutomationProject.driver
             else if (runType.Equals("local"))
             {
 
-                Dictionary<string, object> profile = new Dictionary<string, object>();
-
-                
-               /* profile.Add("profile.default_content_setting_values.geolocation", 1);
-
-                Dictionary<string, object> chromeOptions = new Dictionary<string, object>();
-
-                chromeOptions.Add("prefs", profile);*/
-
                 ChromeOptions options = new ChromeOptions();
                 
                 options.AddArgument("--start-maximized");
@@ -75,9 +66,6 @@ namespace SiteDocsAutomationProject.driver
                 options.AddArgument("--disable-popup-blocking");
                 options.AddArgument("--delete-cookies");
 
-
-                // Set the desired geolocation coordinates
-                options.AddArgument("--geolocation=42.662914,21.165503");
                 new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
                 driver = new ChromeDriver(options);
                       

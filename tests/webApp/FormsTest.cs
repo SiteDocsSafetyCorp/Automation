@@ -6,11 +6,7 @@ using SiteDocsAutomationProject.implementation;
 using SiteDocsAutomationProject.implementation.webApp;
 using SiteDocsAutomationProject.testCredentials;
 using SiteDocsAutomationProject.testCredentials.webApp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 /**
  * This is the test class where the QA create Test Cases 
