@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  *  This INTERFACE contains information that is needed to complete a test case
  */
 namespace SiteDocsAutomationProject.testCredentials

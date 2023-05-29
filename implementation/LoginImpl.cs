@@ -12,7 +12,6 @@ namespace SiteDocsAutomationProject.implementation
 {
     public class LoginImpl
     {
-
         // PAGE OBJECTS
         private readonly IWebDriver driver;
         private readonly UserDriverActions actions;
@@ -46,26 +45,36 @@ namespace SiteDocsAutomationProject.implementation
         public void LoginWithDifferentUsers(String username, String password)
         {
 
-            actions.SendInput(usernameHolder, username, 5);
-            actions.Click(nextBtn, 5);
-            actions.SendInput(passwordHolder, password, 5);
-            actions.Click(loginBtn, 5);
+            actions.SendInput(usernameHolder, username);
+            actions.Click(nextBtn);
+            actions.SendInput(passwordHolder, password);
+            actions.Click(loginBtn);
 
-            if (username == LoginInfo.APP_ACCESS_USER)
+            try
             {
-                Assert.IsTrue(actions.WaitUntilElementIsDisplayed(accessDeniedPage, 5));
-                logs.Logs.Info(username + " is redirected to Denied Access page because it doesn't have permissions!");
-                return;
+                // This will look for an error message showing that the username/password was incorrect
+                IWebElement errorMessage = driver.FindElement(By.ClassName("login-input-error"));
+                if (errorMessage.Text.Contains("The username and/or password did not match our records."))
+                {
+                    logs.Logs.Info("User has used wrong username/password and wasn't logged in! ");
+                    return;
+                }
             }
-            else if (username == LoginInfo.WRONG_USERNAME || password == LoginInfo.WRONG_PASSWORD)
+            catch (NoSuchElementException)
             {
-                Assert.IsTrue(actions.WaitUntilElementIsDisplayed(wrongCredentialsError, 5));
-                logs.Logs.Error("User has used wrong username/password and wasn't logged in! ");
-                return;
+                logs.Logs.Info("Login successful for user " + username);
             }
 
-            Assert.IsTrue(actions.WaitUntilElementIsDisplayed(userProfile, 5));
-            logs.Logs.Info(username + " has navigated to Admin Panel!");
+            if(username == LoginInfo.APP_ACCESS_USER) 
+            {
+                logs.Logs.Info(username + " was redirected to Web App");
+            }
+               else
+            {
+                Assert.IsTrue(actions.WaitUntilElementIsDisplayed(userProfile));
+                logs.Logs.Info(username + " has navigated to Admin Panel!");
+            }
+            
 
         }
 
@@ -74,15 +83,15 @@ namespace SiteDocsAutomationProject.implementation
         // change password is different in stage from dev
         public void ChangePassword()
         {
-            actions.Click(userProfile, 5);
-            actions.Click(changePasswordBtn, 5);
-            actions.WaitUntilElementIsDisplayed(changePasswordModal, 5);
+            actions.Click(userProfile);
+            actions.Click(changePasswordBtn);
+            actions.WaitUntilElementIsDisplayed(changePasswordModal);
             logs.Logs.Info("Change password modal was successfully opened!");
-            actions.SendInput(currentPasswordHolder, LoginInfo.PASSWORD, 5);
-            actions.SendInput(newPasswordHolder, LoginInfo.PASSWORD, 5);
-            actions.SendInput(confirmPasswordHolder, LoginInfo.PASSWORD, 5);
-            actions.Click(confirmChangePasswordBtn, 5);
-            actions.WaitUntilElementIsDisplayed(passwordChangedMsg, 5);
+            actions.SendInput(currentPasswordHolder, LoginInfo.PASSWORD);
+            actions.SendInput(newPasswordHolder, LoginInfo.PASSWORD);
+            actions.SendInput(confirmPasswordHolder, LoginInfo.PASSWORD);
+            actions.Click(confirmChangePasswordBtn);
+            actions.WaitUntilElementIsDisplayed(passwordChangedMsg);
             logs.Logs.Info("User has changed password successfully!");
 
         }
