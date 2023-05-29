@@ -23,7 +23,7 @@ namespace SiteDocsAutomationProject.tests.webApp
     [Parallelizable(ParallelScope.Fixtures)]
     [AllureNUnit]
     [AllureSuite("Forms Suite")]
-    [Category("Forms")]
+    [Category("Forms Suite")]
     internal class FormsTest : InitializeUserDriver
     {
 
@@ -63,7 +63,7 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .AddGPSCoordinatesItem()
                 .ViewImageItem()
                 .ViewPDFItem()
-                .InsertPDFItem("1mb.pdf")
+                .InsertPDFItem("100kb.pdf")
                 .SignAndSave();
         }
 

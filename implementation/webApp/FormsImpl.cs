@@ -4,6 +4,11 @@ using OpenQA.Selenium.Interactions;
 using SiteDocsAutomationProject.utilities;
 using Directory = SiteDocsAutomationProject.utilities.Directory;
 
+/**
+ * Impl classes are used to setup steps that user has to take in order to complete a test case
+ * For every Method that you create that does any action, please add logs to describe that action
+ * Import the class and use LogDemo.info() method to describe action.
+ */
 namespace SiteDocsAutomationProject.implementation.webApp
 {
     internal class FormsImpl
