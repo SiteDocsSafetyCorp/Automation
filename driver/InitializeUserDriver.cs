@@ -28,7 +28,7 @@ namespace SiteDocsAutomationProject.driver
         // Default env is Stage Panel
         private const string environment = "stagePanel";
         // Default runType is Remote
-        private const string runType = "remote";
+        private const string runType = "local";
 
         [SetUp]
         public void Initialize()
@@ -58,12 +58,12 @@ namespace SiteDocsAutomationProject.driver
 
                 Dictionary<string, object> profile = new Dictionary<string, object>();
 
-                // 0 - Default, 1 - Allow, 2 - Block
-                profile.Add("profile.default_content_setting_values.geolocation", 1);
+                
+               /* profile.Add("profile.default_content_setting_values.geolocation", 1);
 
                 Dictionary<string, object> chromeOptions = new Dictionary<string, object>();
 
-                chromeOptions.Add("prefs", profile);
+                chromeOptions.Add("prefs", profile);*/
 
                 ChromeOptions options = new ChromeOptions();
                 
