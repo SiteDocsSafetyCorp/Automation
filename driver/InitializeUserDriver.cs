@@ -28,7 +28,7 @@ namespace SiteDocsAutomationProject.driver
         // Default env is Stage Panel
         private const string environment = "stagePanel";
         // Default runType is Remote
-        private const string runType = "local";
+        private const string runType = "remote";
 
         [SetUp]
         public void Initialize()
