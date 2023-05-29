@@ -20,7 +20,7 @@ namespace SiteDocsAutomationProject.tests
     [Parallelizable(ParallelScope.Fixtures)]
     [AllureNUnit]
     [AllureSuite("Login Suite")]
-    [Category("Login Suite")]
+    [Category("LoginSuite")]
 
     public class LoginTest : InitializeUserDriver
 

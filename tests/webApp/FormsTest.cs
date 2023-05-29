@@ -23,7 +23,7 @@ namespace SiteDocsAutomationProject.tests.webApp
     [Parallelizable(ParallelScope.Fixtures)]
     [AllureNUnit]
     [AllureSuite("Forms Suite")]
-    [Category("Forms Suite")]
+    [Category("FormsSuite")]
     internal class FormsTest : InitializeUserDriver
     {
 
