@@ -59,10 +59,13 @@ namespace SiteDocsAutomationProject.driver
                 ChromeOptions options = new ChromeOptions();
                 
                 
+                options.AddArgument("--disable-notifications");
+                options.AddArgument("--disable-popup-blocking");
+                options.AddArgument("--delete-cookies");
 
                 new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
                 driver = new ChromeDriver(options);
-                      
+                driver.Manage().Window.Size = new System.Drawing.Size(1920, 1080);
             }
             else
             {
