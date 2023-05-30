@@ -58,14 +58,7 @@ namespace SiteDocsAutomationProject.driver
 
                 ChromeOptions options = new ChromeOptions();
                 
-                options.AddArgument("--start-maximized");
-                options.AddArgument("--test-type");
-                options.AddArgument("--enable-strict-powerful-feature-restrictions");
-                options.AddArgument("--disable-notifications");
-                options.AddArgument("--enable-features=Geolocation");
-                options.AddArgument("--disable-popup-blocking");
-                options.AddArgument("--delete-cookies");
-                options.AddArgument("--allowed-ips=10.3.1.4");
+                
 
                 new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
                 driver = new ChromeDriver(options);
