@@ -291,6 +291,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         public FormsImpl InsertPDFItem(String fileName)
         {
             IWebElement item18 = SelectFormItem(23);
+            actions.WaitUntilElementIsDisplayed(item18.FindElement(selectBtn));
             item18.FindElement(selectBtn).Click();
             actions.UploadImageOrFile(uploadPdfHolder, fileName);
             actions.WaitUntilElementIsDisplayed(pdfPageCanvasHolder);

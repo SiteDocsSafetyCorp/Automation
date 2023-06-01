@@ -47,7 +47,7 @@ namespace SiteDocsAutomationProject.tests.webApp
             formsImpl.SelectLocation(FormsInfo.LOCATION_NAME)
                 .GoToGivenTab(FormsInfo.FORMS_TAB)
                 .SelectFormAndStatus(FormsInfo.FORM_NAME, FormsInfo.STATUS_NEW)
-                .AddFormLabel(FormsInfo.SIGNED_FORM_LABEL)
+                .AddFormLabel(FormsInfo.SIGN_FORM_LABEL)
                 .PassOrFailOrNoneItem()
                 .CheckBoxItem()
                 .ShortAnswerItem(FormsInfo.SHORT_ANSWER)
@@ -68,7 +68,7 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .SignAndSave()
                 .GoToGivenTab(FormsInfo.FORMS_TAB)
                 .SelectFormAndStatus(FormsInfo.FORM_NAME, FormsInfo.STATUS_PREVIOUSLY_SIGNED)
-                .SelectPreviousForm(FormsInfo.SIGNED_FORM_LABEL)
+                .SelectPreviousForm(FormsInfo.SIGN_FORM_LABEL)
                 .CheckSignitureContainerExists();
         }
 
