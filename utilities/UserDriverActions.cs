@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Xml.Linq;
 
 /**
  * This class contains methods that the user has to use frequently.
@@ -19,7 +20,7 @@ namespace SiteDocsAutomationProject.utilities
             this.driver = driver;
         }
 
-        // This method is used to input text and wait for given time for element to be displayed!
+        // This method is used to input text and wait for given time for By locator to be displayed!
         public void SendInput(By locator, string text)
         {
             try
@@ -42,26 +43,24 @@ namespace SiteDocsAutomationProject.utilities
             }
         }
 
-        // This method is used to click an element and wait for given time to be displayed!
+        // This method is used to click By locator and wait for given time to be displayed!
         public void Click(By locator)
         {
             try
             {
                 WaitUntilElementIsDisplayed(locator);
                 driver.FindElement(locator).Click();
-                logs.Logs.Info("User has successfully clicked the button!");
+                logs.Logs.Info(locator.ToString() + " - locator was successfully clicked!");
 
             }
             catch (ElementNotInteractableException e)
             {
-                Assert.Fail(
-                        "It failed to click button! " + "\r\n\r\n" +
-                                e + "\r\n\r\n)");
+                throw new Exception($"Failed to click the {locator.ToString} element!", e);
 
             }
         }
 
-        // This method is used to wait for an element until is displayed
+        // This method is used to wait for an By locator until is displayed
         public bool WaitUntilElementIsDisplayed(By locator)
         {
             try
@@ -73,8 +72,24 @@ namespace SiteDocsAutomationProject.utilities
             }
             catch (WebDriverTimeoutException e)
             {
-                Assert.Fail("Element didn't display! " + "\r\n\r\n" + e + "\r\n\r\n");
-                return false;
+                throw new Exception($"{locator.ToString} was not visible!", e);
+                
+            }
+        }
+
+        // This method is used to wait for an IWebElement locator until is displayed
+        public bool WaitUntilElementIsDisplayed(IWebElement locator)
+        {
+            try
+            {
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(180));
+                wait.PollingInterval = TimeSpan.FromSeconds(1);
+
+                return wait.Until(drv => locator.Displayed);
+            }
+            catch (WebDriverTimeoutException e)
+            {
+                throw new Exception($"{locator.ToString()} was not visible!", e);
             }
         }
 
@@ -93,8 +108,8 @@ namespace SiteDocsAutomationProject.utilities
                 }
                 catch (Exception e)
                 {
-                    Assert.Fail("Attempt " + (i + 1) + " to send input failed: " + "\r\n\r\n" +
-                                e + "\r\n\r\n");
+                    throw new NoSuchElementException("Attempt " + (i + 1) + " to send input failed: " + "\r\n\r\n" +
+                                 e + "\r\n\r\n");
                 }
             }
         }
@@ -113,15 +128,16 @@ namespace SiteDocsAutomationProject.utilities
             {
                 driver.SwitchTo().Window(browserTabs[selectedTab]);
             }
-            catch (Exception e)
+            catch (ElementNotInteractableException e)
             {
-                Assert.Fail("Unable to switch to the desired tab, you currently have " + browserTabs.Count + " tabs on this browser window!");
+                throw new Exception("Unable to switch to the desired tab, you currently have " + browserTabs.Count + " tabs on this browser window!");
             }
         }
 
-        // This method is used to get all elements on the list and click desired locator by name 
+        // This method is used to get all elements on the list and click desired By locator by name 
         public void ClickElementFromList(By listID, By locatorID, String name)
         {
+            WaitUntilElementIsDisplayed(listID);
             IWebElement list = driver.FindElement(listID);
             List<IWebElement> locators = list.FindElements(locatorID).ToList();
 
@@ -134,7 +150,7 @@ namespace SiteDocsAutomationProject.utilities
                     return;
                 }
             }
-            Assert.Fail(name + " - element's name doesn't exist!");
+            throw new NoSuchElementException(name + " - element's name doesn't exist!");
         }
 
         // This method is used to upload desired file/image from uploadFiles folder 

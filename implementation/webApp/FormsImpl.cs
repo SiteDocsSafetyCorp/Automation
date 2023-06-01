@@ -1,6 +1,8 @@
-﻿using NUnit.Framework;
+﻿using AngleSharp.Dom;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 using SiteDocsAutomationProject.utilities;
 using Directory = SiteDocsAutomationProject.utilities.Directory;
 
@@ -63,10 +65,15 @@ namespace SiteDocsAutomationProject.implementation.webApp
         private readonly By adminUserSelect = By.XPath("//h5[text()='Automation, Admin']");
         private readonly By appAccessUserSelect = By.XPath("//h5[text()='Automation, AppAccess']");
         private readonly By FormSignedSuccessfullyMsg = By.Id("notistack-snackbar");
+        private readonly By signiture = By.XPath("//div[@data-id='signature-item-container']");
+        private readonly By saveAndReturnBtn = By.XPath("//button[@data-id='save-button']");
+        private readonly By savedFollowUpBtn = By.XPath("//button[@aria-label='Update Follow Up']");
+        private readonly By signedFollowUpBtn = By.XPath("//button[@aria-label='View Follow Up']");
+        private readonly By draftDeleteBtn = By.XPath("//div[@data-id='sidebar-form-item-name-button']/button[@data-id='sidebar-draft-delete-button']");
 
 
 
-        public FormsImpl SelectLocationAndGoToGivenTab(String locationName, String tabName)
+        public FormsImpl SelectLocation(String locationName)
         {
             actions.WaitUntilElementIsDisplayed(locationModal);
             IWebElement option = driver.FindElement(locationOption);
@@ -81,8 +88,15 @@ namespace SiteDocsAutomationProject.implementation.webApp
             {
                 Assert.Fail(locationName + " - was not found in the list!");
             }
+
+            return this;
+        }
+
+        public FormsImpl GoToGivenTab(String tabName) 
+        {
             actions.ClickElementFromList(By.ClassName("webforms-webforms-42"), By.TagName("a"), tabName);
             logs.Logs.Info("User has successfully navigated to tab - " + tabName);
+
             return this;
         }
 
@@ -92,8 +106,29 @@ namespace SiteDocsAutomationProject.implementation.webApp
             logs.Logs.Info("Forms menu is visible!");
             actions.ClickElementFromList(By.ClassName("ReactVirtualized__Grid__innerScrollContainer"), By.TagName("span"), formName);
             actions.ClickElementFromList(By.TagName("nav"), By.TagName("a"), status);
-            actions.WaitUntilElementIsDisplayed(formTemplateContainer);
             logs.Logs.Info("User has successfully selected form - " + formName + " and selected status - " + status);
+            return this;
+        }
+
+        public FormsImpl SelectPreviousForm(string formLabel)
+        {
+            bool elementFound = false;
+            while (!elementFound)
+            {
+                
+                try
+                {
+                    Thread.Sleep(5000);
+                    actions.ClickElementFromList(By.ClassName("ReactVirtualized__Grid__innerScrollContainer"), By.TagName("p"), formLabel);
+                    elementFound = true;
+                    logs.Logs.Info($"Previously signed {formLabel} form was found on the list!");
+                }
+                catch (NoSuchElementException)
+                {
+                    driver.Navigate().Refresh();
+                }
+            }
+
             return this;
         }
 
@@ -259,6 +294,16 @@ namespace SiteDocsAutomationProject.implementation.webApp
             item18.FindElement(selectBtn).Click();
             actions.UploadImageOrFile(uploadPdfHolder, fileName);
             actions.WaitUntilElementIsDisplayed(pdfPageCanvasHolder);
+            
+            return this;
+        }
+
+        public FormsImpl SaveAsDraft()
+        {
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signAndSaveBtn));
+            Thread.Sleep(5000);
+            
+            logs.Logs.Info("Form was successfully saved as draft!");
 
             return this;
         }
@@ -298,7 +343,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public FormsImpl fillOutFollowUpTemplate(String followUpLabel, String shortText, String longText, String nr, String fileName)
+        public FormsImpl fillOutFollowUpTemplate(String followUpLabel, String shortText, String longText, String nr, String fileName, bool sign)
         {
             actions.Click(followUpBtn);
             actions.Click(followUpForm);
@@ -329,11 +374,23 @@ namespace SiteDocsAutomationProject.implementation.webApp
             ViewImageItem();
             AddGPSCoordinatesItem();
             InsertPDFItem(fileName);
-            driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click();
-            actions.Click(appAccessUserSelect);
-            DrawSigniture();
-            actions.WaitUntilElementIsDisplayed(By.XPath("//span[@data-id='signature-item-worker-name']"));
-            actions.Click(closeBtn);
+            if(sign)
+            {
+                driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click(); 
+                actions.Click(appAccessUserSelect);
+                DrawSigniture();
+                CheckSignitureContainerExists();
+                actions.Click(closeBtn);
+                actions.WaitUntilElementIsDisplayed(signedFollowUpBtn);
+                logs.Logs.Info("User has successfully signed follow up template!");
+            }
+            else if(!sign) 
+            {
+                actions.Click(saveAndReturnBtn);
+                actions.WaitUntilElementIsDisplayed(savedFollowUpBtn);
+                logs.Logs.Info("User has successfully saved follow up template!");
+            }
+            
             logs.Logs.Info("User has successfully filled out the follow up form and signed it!");
             return this;
         }
@@ -349,6 +406,14 @@ namespace SiteDocsAutomationProject.implementation.webApp
             actions.WaitUntilElementIsDisplayed(FormSignedSuccessfullyMsg);
             logs.Logs.Info("Form signed successfully message appeared!");
             return this;
+        }
+
+        public void CheckSignitureContainerExists()
+        {
+            actions.WaitUntilElementIsDisplayed(signiture);
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signiture));
+            
+            logs.Logs.Info("Signiture exists!");
         }
 
         public void DrawSigniture()

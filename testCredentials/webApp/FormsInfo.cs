@@ -15,7 +15,10 @@ namespace SiteDocsAutomationProject.testCredentials.webApp
         const string STATUS_DUPLICATE = "Dubplicate";
         const string STATUS_REVISION = "Revision";
         const string STATUS_PREVIOUSLY_SIGNED = "Previously Signed";
-        public static readonly string LABEL = "FormLabel" + new Random().Next();
+        public static readonly string SIGN_FOLLOWUP_LABEL = "SignFollowUpLabel" + new Random().Next();
+        public static readonly string SAVE_FOLLOWUP_LABEL = "SaveFollowUpLabel" + new Random().Next();
+        public static readonly string SIGNED_FORM_LABEL = "FormLabel" + new Random().Next();
+        public static readonly string DRAFT_FORM_LABEL = "DraftFormLabel" + new Random().Next();
         const string COMMENT = "This is automated comment!";
         const string PHOTO_COMMENT = "This is automated photo comment!";
         const string SHORT_ANSWER = "This is automated short answer!";

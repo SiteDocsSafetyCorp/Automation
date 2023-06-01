@@ -60,6 +60,7 @@ namespace SiteDocsAutomationProject.driver
                 
                 options.AddArgument("--delete-cookies");
                 options.AddArgument("--start-maximized");
+                options.AddArgument("--enable-features=Geolocation");
 
                 new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
                 driver = new ChromeDriver(options);
