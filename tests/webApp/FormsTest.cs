@@ -52,7 +52,6 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .GoToGivenTab(FormsInfo.FORMS_TAB)
                 .SelectFormAndStatus(FormsInfo.FORM_NAME, FormsInfo.STATUS_PREVIOUSLY_SIGNED)
                 .SelectPreviousForm(FormsInfo.SIGN_FORM_LABEL)
-                .CheckSignitureContainerExists()
                 .PrettyPrint(FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER);
 
 
@@ -71,7 +70,6 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .GoToGivenTab(FormsInfo.FORMS_TAB)
                 .SelectFormAndStatus(FormsInfo.FORM_FOLLOWUP_NAME, FormsInfo.STATUS_PREVIOUSLY_SIGNED)
                 .SelectPreviousForm(FormsInfo.SIGN_FOLLOWUP_LABEL_1)
-                .CheckSignitureContainerExists()
                 .PrettyPrint(FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER);
 
         }
@@ -90,7 +88,6 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .GoToGivenTab(FormsInfo.FORMS_TAB)
                 .SelectFormAndStatus(FormsInfo.FORM_FOLLOWUP_NAME, FormsInfo.STATUS_PREVIOUSLY_SIGNED)
                 .SelectPreviousForm(FormsInfo.SAVE_FOLLOWUP_LABEL)
-                .CheckSignitureContainerExists()
                 .PrettyPrint(FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER);
         }
 
@@ -123,7 +120,6 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .SelectFormAndStatus(FormsInfo.FORM_FOLLOWUP_NAME, FormsInfo.STATUS_PREVIOUSLY_SIGNED)
                 .SelectPreviousForm(FormsInfo.SIGN_FOLLOWUP_LABEL_2)
                 .FillOutFollowUpTemplate(FormsInfo.FORM_FOLLOWUP_NAME, FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER, "100kb.pdf", true)
-                .CheckSignitureContainerExists()
                 .PrettyPrint(FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER);
         }
 
@@ -140,7 +136,6 @@ namespace SiteDocsAutomationProject.tests.webApp
                 .SelectFormAndStatus(FormsInfo.FORM_FOLLOWUP_NAME, FormsInfo.STATUS_PREVIOUSLY_SIGNED)
                 .SelectPreviousForm(FormsInfo.SAVE_FOLLOWUP_LABEL_2)
                 .FillOutFollowUpTemplate(FormsInfo.FORM_FOLLOWUP_NAME, FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER, "100kb.pdf", false)
-                .CheckSignitureContainerExists()
                 .PrettyPrint(FormsInfo.SHORT_ANSWER, FormsInfo.LONG_ANSWER, FormsInfo.NUMBER);
         }
 

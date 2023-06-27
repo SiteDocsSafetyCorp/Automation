@@ -116,7 +116,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public FormsImpl GoToGivenTab(String tabName) 
+        public FormsImpl GoToGivenTab(String tabName)
         {
             actions.ClickElementFromList(By.ClassName("webforms-webforms-42"), By.TagName("a"), tabName);
             logs.Logs.Info("User has successfully navigated to tab - " + tabName);
@@ -139,7 +139,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             bool elementFound = false;
             while (!elementFound)
             {
-                
+
                 try
                 {
                     Thread.Sleep(5000);
@@ -169,7 +169,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         }
 
 
-        public FormsImpl PassOrFailOrNoneItem() 
+        public FormsImpl PassOrFailOrNoneItem()
         {
             IWebElement item1 = SelectFormItem(2);
             item1.FindElement(passAndYesBtn).Click();
@@ -319,7 +319,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             item18.FindElement(selectBtn).Click();
             actions.UploadImageOrFile(uploadPdfHolder, fileName);
             actions.WaitUntilElementIsDisplayed(pdfPageCanvasHolder);
-            
+
             return this;
         }
 
@@ -350,7 +350,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signAndSaveBtn));
             Thread.Sleep(5000);
-            
+
             logs.Logs.Info("Form was successfully saved as draft!");
 
             return this;
@@ -365,7 +365,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
                 section.FindElement(commentHolder).SendKeys(comment);
                 logs.Logs.Info($"text '{comment}' was typed!");
             }
-            catch (NotFoundException e) 
+            catch (NotFoundException e)
             {
                 logs.Logs.Info($"An error occurred: {e.Message}, the section user has selected might not have comment button!");
                 throw;
@@ -383,7 +383,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
                 section.FindElement(commentOnPhotoHolder).SendKeys(comment);
                 logs.Logs.Info($"text '{comment}' was typed on the photo!");
             }
-            catch(NotFoundException e) 
+            catch (NotFoundException e)
             {
                 logs.Logs.Info($"An error occurred: {e.Message}, the section user has selected might not have image uploader button!");
                 throw;
@@ -422,13 +422,12 @@ namespace SiteDocsAutomationProject.implementation.webApp
             ViewImageItem();
             AddGPSCoordinatesItem();
             InsertPDFItem(fileName);
-            if(sign)
+            if (sign)
             {
-                driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click(); 
+                driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click();
                 actions.Click(appAccessUserSelect);
                 DrawSigniture();
                 Thread.Sleep(5000);
-                CheckSignitureContainerExists();
                 actions.Click(closeBtn);
                 actions.WaitUntilElementIsDisplayed(signedFollowUpBtn);
                 logs.Logs.Info("User has successfully signed follow up template!");
@@ -461,7 +460,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             actions.WaitUntilElementIsDisplayed(signiture);
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signiture));
-            
+
             logs.Logs.Info("Signiture exists!");
             return this;
         }
@@ -479,6 +478,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
                 .Perform();
 
             actions.Click(saveSignatureBtn);
+            CheckSignitureContainerExists();
         }
 
         public void UploadImageOnForm(IWebElement section, string fileName)
@@ -492,12 +492,12 @@ namespace SiteDocsAutomationProject.implementation.webApp
 
         public FormsImpl PrettyPrint(string shortAnswer, string longAnswer, string nr)
         {
-            
+
             actions.Click(shareBtn);
             actions.SwitchToTab(1);
             try
             {
-                
+
                 var followUp = driver.FindElement(followUpFlag);
                 if (followUp.Displayed)
                 {
@@ -536,6 +536,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        
+
     }
 }

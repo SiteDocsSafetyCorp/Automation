@@ -26,7 +26,7 @@ namespace SiteDocsAutomationProject.driver
         public IWebDriver driver;
 
         // Default env is Stage Panel
-        private const string environment = "Dev";
+        private const string environment = "stage";
         // Default runType is Remote
         private const string runType = "local";
 
