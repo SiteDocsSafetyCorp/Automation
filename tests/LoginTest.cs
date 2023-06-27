@@ -63,7 +63,7 @@ namespace SiteDocsAutomationProject.tests
 
         }
 
-        [Test, Order(4), Description("This test case tests if user can login with wrong email!")]
+        [Test, Order(4), Description("This test case tests if user can login with wrong username!")]
         public void loginWithWrongUsername()
         {
             CommonSteps(LoginInfo.WRONG_USERNAME, LoginInfo.PASSWORD);
@@ -72,7 +72,7 @@ namespace SiteDocsAutomationProject.tests
         [Test, Order(5), Description("This test case tests if user can login with wrong password!")]
         public void loginWithWrongPassword()
         {
-            CommonSteps(LoginInfo.SUPER_ADMIN, LoginInfo.WRONG_PASSWORD);
+            CommonSteps(LoginInfo.WRONG_USERNAME, LoginInfo.WRONG_PASSWORD);
         }
 
         [Test, Order(6), Description("This test case tests if Super Admin user can change password!")]

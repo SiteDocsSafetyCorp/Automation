@@ -26,7 +26,7 @@ namespace SiteDocsAutomationProject.driver
         public IWebDriver driver;
 
         // Default env is Stage Panel
-        private const string environment = "stagePanel";
+        private const string environment = "Dev";
         // Default runType is Remote
         private const string runType = "local";
 
@@ -86,15 +86,17 @@ namespace SiteDocsAutomationProject.driver
         public void TearDown()
 
         {
-            // This is used to take screenshot after failure test!
+            
             if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
             {
+                // This is used to take screenshot after failure test!
                 var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
                 var filename = TestContext.CurrentContext.Test.MethodName + "_screenshot_" + DateTime.Now.Ticks + ".png";
                 var path = "user.dir" + filename;
                 screenshot.SaveAsFile(path, ScreenshotImageFormat.Png);
                 TestContext.AddTestAttachment(path);
                 AllureLifecycle.Instance.AddAttachment(filename, "image/png", path);
+                driver.Quit();
             }
 
             driver.Quit();

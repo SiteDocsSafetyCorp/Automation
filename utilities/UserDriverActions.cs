@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System.Xml.Linq;
 
 /**
  * This class contains methods that the user has to use frequently.
@@ -28,8 +27,6 @@ namespace SiteDocsAutomationProject.utilities
 
                 WaitUntilElementIsDisplayed(locator);
                 driver.FindElement(locator).SendKeys(text);
-                logs.Logs.Info(text + " --  text was successfully send!");
-
             }
             catch (Exception e)
             {
@@ -50,8 +47,6 @@ namespace SiteDocsAutomationProject.utilities
             {
                 WaitUntilElementIsDisplayed(locator);
                 driver.FindElement(locator).Click();
-                logs.Logs.Info(locator.ToString() + " - locator was successfully clicked!");
-
             }
             catch (ElementNotInteractableException e)
             {
@@ -65,7 +60,7 @@ namespace SiteDocsAutomationProject.utilities
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(180));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(120));
                 wait.PollingInterval = TimeSpan.FromSeconds(1);
 
                 return wait.Until(drv => drv.FindElement(locator).Displayed);
@@ -74,6 +69,19 @@ namespace SiteDocsAutomationProject.utilities
             {
                 throw new Exception($"{locator.ToString} was not visible!", e);
                 
+            }
+        }
+
+        // This method is used to check if element is displayed
+        public bool IsElementDisplayed(By locator)
+        {
+            try
+            {
+                return driver.FindElement(locator).Displayed;
+            }
+            catch (NoSuchElementException e)
+            {
+                throw new Exception($"{locator} was not visible!", e);
             }
         }
 
@@ -128,7 +136,7 @@ namespace SiteDocsAutomationProject.utilities
             {
                 driver.SwitchTo().Window(browserTabs[selectedTab]);
             }
-            catch (ElementNotInteractableException e)
+            catch (ElementNotInteractableException)
             {
                 throw new Exception("Unable to switch to the desired tab, you currently have " + browserTabs.Count + " tabs on this browser window!");
             }
@@ -146,7 +154,6 @@ namespace SiteDocsAutomationProject.utilities
                 if (locator.Text.ToUpper().Equals(name.ToUpper()))
                 {
                     locator.Click();
-                    logs.Logs.Info("User has successfully clicked to " + name + " element!");
                     return;
                 }
             }
@@ -160,8 +167,11 @@ namespace SiteDocsAutomationProject.utilities
             string imagePath = DirectoryPaths.GetPath(Directory.UploadFilesPath) + fileName;
             fileUploadButton.SendKeys(imagePath);
             logs.Logs.Info(fileName + " was uploaded successfully!");
-
         }
 
+        public void Delay(int milliseconds)
+        {
+            Thread.Sleep(milliseconds);
+        }
     }
 }

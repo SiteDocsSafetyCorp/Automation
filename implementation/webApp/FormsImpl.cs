@@ -1,9 +1,10 @@
-﻿using AngleSharp.Dom;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 using SiteDocsAutomationProject.utilities;
+using System.Globalization;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 using Directory = SiteDocsAutomationProject.utilities.Directory;
 
 /**
@@ -27,10 +28,13 @@ namespace SiteDocsAutomationProject.implementation.webApp
         }
 
         // LOCATORS
+
+        // --- Web App ---
         private readonly By locationModal = By.Id("location-modal-paper");
         private readonly By locationOption = By.XPath("//li[@data-id='location-modal-item-name-button']");
         private readonly By profile = By.Id("HOME_MENU");
         private readonly By formsMenu = By.XPath("//h4[text()='Forms']");
+        // --- Forms ---
         private readonly By formTemplateContainer = By.Id("form-container-ss-form");
         private readonly By formsLabel = By.Id("company-info-label");
         private readonly By commentOnPhotoHolder = By.XPath(".//textarea[@placeholder='Add Photo Comment']");
@@ -58,18 +62,38 @@ namespace SiteDocsAutomationProject.implementation.webApp
         private readonly By closeBtn = By.XPath("//button[@data-id='close-modal-button']");
         private readonly By uploadPdfHolder = By.XPath("//input[@data-testid='pdf-input-file']");
         private readonly By pdfPageCanvasHolder = By.XPath("//canvas[@class='react-pdf__Page__canvas']");
-        private readonly By followUpBtn = By.XPath("//button[@aria-label='Add Flag']");
-        private readonly By followUpForm = By.XPath("//span[@data-id='followup-form-item-name-text']");
+        private readonly By signiture = By.XPath("//div[@data-id='signature-item-container']");
+        private readonly By appAccessUserSelect = By.XPath("//h5[text()='Automation, AppAccess']");
+        private readonly By adminUserSelect = By.XPath("//h5[text()='Automation, Admin']");
         private readonly By commentBtn = By.XPath(".//button[@aria-label='Add Comment']");
         private readonly By commentHolder = By.XPath(".//textarea[@id='undefined-comment']");
-        private readonly By adminUserSelect = By.XPath("//h5[text()='Automation, Admin']");
-        private readonly By appAccessUserSelect = By.XPath("//h5[text()='Automation, AppAccess']");
         private readonly By FormSignedSuccessfullyMsg = By.Id("notistack-snackbar");
-        private readonly By signiture = By.XPath("//div[@data-id='signature-item-container']");
+        private readonly By shareBtn = By.Id("form-share-button");
+        // --- Pretty Print ---
+        private readonly By prettyPrintPage = By.Id("prettyPrint");
+        private readonly By passFailWrapper = By.XPath("//tr[@data-id='form-item-container-2']//*[contains(@fill, '#00ad1d')]");
+        private readonly By checkboxWrapper = By.XPath("//tr[@data-id='form-item-container-1']//*[contains(@fill, '#00ad1d')]");
+        private readonly By shortAnswerWrapper = By.XPath("//tr[@data-id='form-item-container-6']");
+        private readonly By longAnswerWrapper = By.XPath("//tr[@data-id='form-item-container-3']");
+        private readonly By singleOptionWrapper = By.XPath("//tr[@data-id='form-item-container-9' and contains (.,'option1')]");
+        private readonly By multipleOptionWrapper = By.XPath("//tr[@data-id='form-item-container-8' and contains (.,'option1, option2')]");
+        private readonly By yesAndNoWrapper = By.XPath("//tr[@data-id='form-item-container-18']//*[contains(@class, 'enabled') and text()='Yes']");
+        private readonly By numberCounterWrapper = By.XPath("//tr[@data-id='form-item-container-19']//*[contains(@class, 'pass-fail-counter-wrapper')]");
+        private readonly By numberWrapper = By.XPath("//tr[@data-id='form-item-container-19']");
+        private readonly By dateWrapper = By.XPath("//tr[@data-id='form-item-container-13']//*[contains(@class, 'form-item-center col-sm-6')]");
+        private readonly By timeWrapper = By.XPath("//tr[@data-id='form-item-container-14']//*[contains(@data-name, 'Time Icon')]");
+        private readonly By singleWorkerWrapper = By.XPath("//tr[@data-id='form-item-container-12' and contains (.,'Admin Automation')]");
+        private readonly By multipleWorkerWrapper = By.XPath("//tr[@data-id='form-item-container-20' and contains (.,'AppAccess Automation, Admin Automation')]");
+        private readonly By locationWrapper = By.XPath("//tr[@data-id='form-item-container-17']//*[contains(@id, 'coordinates-comment__view-map')]");
+        private readonly By imageWrapper = By.XPath("//tr[@data-id='form-item-container-22']//*[contains(@class, 'padded-image')]");
+        private readonly By pdfWrapper = By.XPath("//tr[@data-id='form-item-container-23']//*[contains(@class, 'insert-pdf-frame')]");
+        // --- Follow Up ---
+        private readonly By followUpBtn = By.XPath("//button[@aria-label='Add Flag']");
+        private readonly By followUpForm = By.XPath("//span[@data-id='followup-form-item-name-text']");
+        private readonly By followUpFlag = By.CssSelector("[class*='follow-up-flag']");
         private readonly By saveAndReturnBtn = By.XPath("//button[@data-id='save-button']");
         private readonly By savedFollowUpBtn = By.XPath("//button[@aria-label='Update Follow Up']");
         private readonly By signedFollowUpBtn = By.XPath("//button[@aria-label='View Follow Up']");
-        private readonly By draftDeleteBtn = By.XPath("//div[@data-id='sidebar-form-item-name-button']/button[@data-id='sidebar-draft-delete-button']");
 
 
 
@@ -121,7 +145,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
                     Thread.Sleep(5000);
                     actions.ClickElementFromList(By.ClassName("ReactVirtualized__Grid__innerScrollContainer"), By.TagName("p"), formLabel);
                     elementFound = true;
-                    logs.Logs.Info($"Previously signed {formLabel} form was found on the list!");
+                    logs.Logs.Info($"Previously signed/saved form {formLabel} was found on the list!");
                 }
                 catch (NoSuchElementException)
                 {
@@ -299,6 +323,29 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
+        public FormsImpl FillOutAllItems(String shortText, String longText, String nr, String fileName)
+        {
+            PassOrFailOrNoneItem()
+                .CheckBoxItem()
+                .ShortAnswerItem(shortText)
+                .LongAnswerItem(longText)
+                .DropDownOneSelect()
+                .DropDownMultipleSelect()
+                .YesOrNoOrNoneItem()
+                .PassOrFailCounterItem()
+                .NumberOnlyItem(nr)
+                .SelectDateItem()
+                .SelectTimeItem()
+                .SelectOneWorkerItem()
+                .SelectMultipleWorkersItem()
+                .AddGPSCoordinatesItem()
+                .ViewImageItem()
+                .ViewPDFItem()
+                .InsertPDFItem(fileName);
+
+            return this;
+        }
+
         public FormsImpl SaveAsDraft()
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signAndSaveBtn));
@@ -344,7 +391,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public FormsImpl fillOutFollowUpTemplate(String followUpLabel, String shortText, String longText, String nr, String fileName, bool sign)
+        public FormsImpl FillOutFollowUpTemplate(String followUpLabel, String shortText, String longText, String nr, String fileName, bool sign)
         {
             actions.Click(followUpBtn);
             actions.Click(followUpForm);
@@ -380,6 +427,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
                 driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click(); 
                 actions.Click(appAccessUserSelect);
                 DrawSigniture();
+                Thread.Sleep(5000);
                 CheckSignitureContainerExists();
                 actions.Click(closeBtn);
                 actions.WaitUntilElementIsDisplayed(signedFollowUpBtn);
@@ -388,11 +436,11 @@ namespace SiteDocsAutomationProject.implementation.webApp
             else if(!sign) 
             {
                 actions.Click(saveAndReturnBtn);
+                Thread.Sleep(5000);
                 actions.WaitUntilElementIsDisplayed(savedFollowUpBtn);
                 logs.Logs.Info("User has successfully saved follow up template!");
             }
-            
-            logs.Logs.Info("User has successfully filled out the follow up form and signed it!");
+            Thread.Sleep(8000);
             return this;
         }
 
@@ -409,12 +457,13 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public void CheckSignitureContainerExists()
+        public FormsImpl CheckSignitureContainerExists()
         {
             actions.WaitUntilElementIsDisplayed(signiture);
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signiture));
             
             logs.Logs.Info("Signiture exists!");
+            return this;
         }
 
         public void DrawSigniture()
@@ -441,6 +490,52 @@ namespace SiteDocsAutomationProject.implementation.webApp
 
         }
 
+        public FormsImpl PrettyPrint(string shortAnswer, string longAnswer, string nr)
+        {
+            
+            actions.Click(shareBtn);
+            actions.SwitchToTab(1);
+            try
+            {
+                
+                var followUp = driver.FindElement(followUpFlag);
+                if (followUp.Displayed)
+                {
+                    actions.Click(followUpFlag);
+                    actions.SwitchToTab(2);
+                }
+            }
+            catch (NoSuchElementException)
+            {
+                logs.Logs.Info("Followup flag was not visible!");
+            }
+            actions.WaitUntilElementIsDisplayed(prettyPrintPage);
+            actions.IsElementDisplayed(passFailWrapper);
+            actions.IsElementDisplayed(checkboxWrapper);
+            string answerHolder = driver.FindElement(shortAnswerWrapper).Text;
+            answerHolder.Equals(shortAnswer);
+            string answer2Holder = driver.FindElement(longAnswerWrapper).Text;
+            answer2Holder.Equals(longAnswer);
+            actions.IsElementDisplayed(singleOptionWrapper);
+            actions.IsElementDisplayed(multipleOptionWrapper);
+            actions.IsElementDisplayed(yesAndNoWrapper);
+            actions.IsElementDisplayed(numberCounterWrapper);
+            string nrHolder = driver.FindElement(numberWrapper).Text;
+            nrHolder.Equals(nr);
+            string dateElement = driver.FindElement(dateWrapper).Text;
+            DateTime date = DateTime.ParseExact(dateElement, "MMMM dd, yyyy", CultureInfo.InvariantCulture);
+            DateTime todaysDate = DateTime.Today;
+            DateTime.Compare(date, todaysDate);
+            actions.IsElementDisplayed(timeWrapper);
+            actions.IsElementDisplayed(singleWorkerWrapper);
+            actions.IsElementDisplayed(multipleWorkerWrapper);
+            actions.IsElementDisplayed(locationWrapper);
+            actions.IsElementDisplayed(pdfWrapper);
+            logs.Logs.Info("All items in pretty print were checked!");
 
+            return this;
+        }
+
+        
     }
 }
