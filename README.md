@@ -20,16 +20,31 @@ Automation selenium project contains all of our automated tests that is stored a
 * [Install Git](https://git-scm.com/downloads)
 * [Install Allure Report](https://docs.qameta.io/allure/)
 
-### Run test
+### Getting Started
 * Install Git in your local machine
 * Open terminal and type 'git clone https://github.com/lorikSiteDocs/SiteDocsAutomationProject.git' 
 * After clone is done you can open project with Visual Studio or click on "SiteDocsAutomationProject.sln" file
 * All Tests within the project using annotation [TEST] will be listed in Test Explorer
-* To run all tests from cmd use this command "dotnet test" 
+
+### Local Setup 
+* `runType="local"`
+    * Choose between:
+      * `local` - This will run your tests in the browser using your local WebDriver
+      * `remote` - This will run your tests using the browserstack remote driver
+    * Default if not set:  `docker`
+* `environment="stage"`
+    * Choose between `prod`, `stage`, and `dev` 
+    * Default if not set: `stage`
+* To run all tests from Developer PowerShell use this command "dotnet test" 
 * To run tests with specific category use this command "dotnet test --filter Category=LoginTest"
 * After running first test, allure-results folder will be created with test results
 * To run allure report from cmd use this command "allure serve bin\Debug\net6.0\allure-results"
 
-### Note for local testing
+### Note for browserstack 
 * Update userName and accessKey in browserstack.yml with your credentials
 * Remove other OS than Chrome so it won't take to long to run tests locally
+
+<!-- CONTACT -->
+## Contact
+
+[Lorik Halili](mailto:lorik@sitedocs.com)
