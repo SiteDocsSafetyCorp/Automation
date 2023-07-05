@@ -523,7 +523,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             string nrHolder = driver.FindElement(numberWrapper).Text;
             nrHolder.Equals(nr);
             string dateElement = driver.FindElement(dateWrapper).Text;
-            DateTime date = DateTime.ParseExact(dateElement, "MMMM dd, yyyy", CultureInfo.InvariantCulture);
+            DateTime date = DateTime.ParseExact(dateElement, "MMMM d, yyyy", CultureInfo.InvariantCulture);
             DateTime todaysDate = DateTime.Today;
             DateTime.Compare(date, todaysDate);
             actions.IsElementDisplayed(timeWrapper);
