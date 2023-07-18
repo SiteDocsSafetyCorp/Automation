@@ -45,7 +45,7 @@
     <Compile Update="reports\Logs.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="testCredentials\LoginInfo.cs">
+    <Compile Update="testCredentials\ILoginInfo.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="tests\LoginTest.cs">

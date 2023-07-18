@@ -41,7 +41,7 @@ namespace SiteDocsAutomationProject.tests
         public void AapAccessUserToAdminPanel()
 
         {
-            CommonSteps(LoginInfo.APP_ACCESS_USER, LoginInfo.PASSWORD);
+            CommonSteps(ILoginInfo.APP_ACCESS_USER, ILoginInfo.PASSWORD);
 
         }
 
@@ -50,7 +50,7 @@ namespace SiteDocsAutomationProject.tests
         public void AdminUserToAdminPanel()
 
         {
-            CommonSteps(LoginInfo.ADMIN, LoginInfo.PASSWORD);
+            CommonSteps(ILoginInfo.ADMIN, ILoginInfo.PASSWORD);
 
         }
 
@@ -59,26 +59,26 @@ namespace SiteDocsAutomationProject.tests
         public void SuperAdminUserToAdminPanel()
 
         {
-            CommonSteps(LoginInfo.SUPER_ADMIN, LoginInfo.PASSWORD);
+            CommonSteps(ILoginInfo.SUPER_ADMIN, ILoginInfo.PASSWORD);
 
         }
 
         [Test, Order(4), Description("This test case tests if user can login with wrong username!")]
         public void loginWithWrongUsername()
         {
-            CommonSteps(LoginInfo.WRONG_USERNAME, LoginInfo.PASSWORD);
+            CommonSteps(ILoginInfo.WRONG_USERNAME, ILoginInfo.PASSWORD);
         }
         
         [Test, Order(5), Description("This test case tests if user can login with wrong password!")]
         public void loginWithWrongPassword()
         {
-            CommonSteps(LoginInfo.WRONG_USERNAME, LoginInfo.WRONG_PASSWORD);
+            CommonSteps(ILoginInfo.WRONG_USERNAME, ILoginInfo.WRONG_PASSWORD);
         }
 
         [Test, Order(6), Description("This test case tests if Super Admin user can change password!")]
         public void ChangePassword()
         {
-            CommonSteps(LoginInfo.SUPER_ADMIN, LoginInfo.PASSWORD);
+            CommonSteps(ILoginInfo.SUPER_ADMIN, ILoginInfo.PASSWORD);
             loginImpl.ChangePassword();
 
         }

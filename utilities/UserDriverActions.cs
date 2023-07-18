@@ -55,12 +55,27 @@ namespace SiteDocsAutomationProject.utilities
             }
         }
 
+        // This method is used to click By locator using JavaScript
+        public void JSclick(By locator)
+        {
+            try
+            {
+                WaitUntilElementIsDisplayed(locator);
+                IWebElement element = driver.FindElement(locator);
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", element);
+            }
+            catch (ElementNotInteractableException e)
+            {
+                throw new Exception($"Failed to click the {locator.ToString} element!", e);
+            }
+        }
+
         // This method is used to wait for an By locator until is displayed
         public bool WaitUntilElementIsDisplayed(By locator)
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(120));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
                 wait.PollingInterval = TimeSpan.FromSeconds(1);
 
                 return wait.Until(drv => drv.FindElement(locator).Displayed);
@@ -83,6 +98,29 @@ namespace SiteDocsAutomationProject.utilities
             {
                 throw new Exception($"{locator} was not visible!", e);
             }
+        }
+
+        // This method is used to check if element is displayed and reattempt 3 times 
+        public bool ReattemptAndRefreshIsElementDisplayed(By locator)
+        {
+            const int maxAttempts = 3;  // Maximum number of attempts to check element display
+
+            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    IWebElement element = driver.FindElement(locator);
+                    if (element.Displayed)
+                        return true;
+                }
+                catch (NoSuchElementException)
+                {
+                    Thread.Sleep(5000);
+                    driver.Navigate().Refresh();
+                }
+            }
+
+            return false;
         }
 
         // This method is used to wait for an IWebElement locator until is displayed
@@ -142,7 +180,7 @@ namespace SiteDocsAutomationProject.utilities
             }
         }
 
-        // This method is used to get all elements on the list and click desired By locator by name 
+        // This method is used to get all elements on the list and click desired locator
         public void ClickElementFromList(By listID, By locatorID, String name)
         {
             WaitUntilElementIsDisplayed(listID);
@@ -158,6 +196,24 @@ namespace SiteDocsAutomationProject.utilities
                 }
             }
             throw new NoSuchElementException(name + " - element's name doesn't exist!");
+        }
+
+        // This method is used to get all elements on the list and check if element is displyed
+        public bool IsElementDisplayedInList(By listID, By locatorID, string name)
+        {
+            WaitUntilElementIsDisplayed(listID);
+            IWebElement list = driver.FindElement(listID);
+            List<IWebElement> locators = list.FindElements(locatorID).ToList();
+
+            foreach (IWebElement locator in locators)
+            {
+                if (locator.Displayed && locator.Text.ToUpper().Equals(name.ToUpper()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // This method is used to upload desired file/image from uploadFiles folder 

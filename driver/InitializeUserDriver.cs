@@ -57,10 +57,15 @@ namespace SiteDocsAutomationProject.driver
             {
 
                 ChromeOptions options = new ChromeOptions();
-                
-                options.AddArgument("--delete-cookies");
+
                 options.AddArgument("--start-maximized");
+                options.AddArgument("--delete-cookies");
                 options.AddArgument("--enable-features=Geolocation");
+                options.AddArgument("--disable-gpu");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--ignore-certificate-errors");
+                options.AddArgument("--disable-notifications");
+                options.AddArgument("--disable-popup-blocking");
 
                 new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
                 driver = new ChromeDriver(options);
