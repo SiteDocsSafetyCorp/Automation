@@ -21,7 +21,7 @@ namespace SiteDocsAutomationProject.implementation
         public LoginImpl(IWebDriver driver)
         {
             this.driver = driver;
-            this.actions = new UserDriverActions(driver);
+            actions = new UserDriverActions(driver);
         }
 
         // LOCATORS 
@@ -51,13 +51,13 @@ namespace SiteDocsAutomationProject.implementation
             actions.SendInput(passwordHolder, password);
             actions.Click(loginBtn);
 
-            if (username == LoginInfo.APP_ACCESS_USER)
+            if (username == ILoginInfo.APP_ACCESS_USER)
             {
                 actions.Click(webAppBtn);
                 actions.WaitUntilElementIsDisplayed(locationModal);
                 logs.Logs.Info(username + " has navigated to Admin Panel!");
             }
-            else if (username == LoginInfo.SUPER_ADMIN || username == LoginInfo.ADMIN)
+            else if (username == ILoginInfo.SUPER_ADMIN || username == ILoginInfo.ADMIN)
             {
                 actions.Click(adminPanelBtn);
                 Assert.IsTrue(actions.WaitUntilElementIsDisplayed(userProfile));
@@ -84,9 +84,9 @@ namespace SiteDocsAutomationProject.implementation
             actions.Click(changePasswordBtn);
             actions.WaitUntilElementIsDisplayed(changePasswordModal);
             logs.Logs.Info("Change password modal was successfully opened!");
-            actions.SendInput(currentPasswordHolder, LoginInfo.PASSWORD);
-            actions.SendInput(newPasswordHolder, LoginInfo.PASSWORD);
-            actions.SendInput(confirmPasswordHolder, LoginInfo.PASSWORD);
+            actions.SendInput(currentPasswordHolder, ILoginInfo.PASSWORD);
+            actions.SendInput(newPasswordHolder, ILoginInfo.PASSWORD);
+            actions.SendInput(confirmPasswordHolder, ILoginInfo.PASSWORD);
             actions.Click(confirmChangePasswordBtn);
             actions.WaitUntilElementIsDisplayed(passwordChangedMsg);
             logs.Logs.Info("User has changed password successfully!");

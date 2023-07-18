@@ -3,7 +3,7 @@
  */
 namespace SiteDocsAutomationProject.testCredentials
 {
-    public interface LoginInfo
+    public interface ILoginInfo
     {
 
         const string APP_ACCESS_USER = "lorik+AutomationAppAccess@sitedocs.com";

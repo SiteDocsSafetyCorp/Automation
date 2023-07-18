@@ -4,7 +4,7 @@
  */
 namespace SiteDocsAutomationProject.testCredentials.webApp
 {
-    public interface FormsInfo
+    public interface IFormsInfo
     {
         const string LOCATION_NAME = "Demo Project";
         const string FORMS_TAB = "Forms";

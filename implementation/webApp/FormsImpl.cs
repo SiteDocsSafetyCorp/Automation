@@ -3,8 +3,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using SiteDocsAutomationProject.utilities;
 using System.Globalization;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 using Directory = SiteDocsAutomationProject.utilities.Directory;
 
 /**
@@ -14,7 +12,7 @@ using Directory = SiteDocsAutomationProject.utilities.Directory;
  */
 namespace SiteDocsAutomationProject.implementation.webApp
 {
-    internal class FormsImpl
+    public class FormsImpl
     {
         // PAGE OBJECTS
         private readonly IWebDriver driver;
@@ -70,6 +68,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         private readonly By FormSignedSuccessfullyMsg = By.Id("notistack-snackbar");
         private readonly By shareBtn = By.Id("form-share-button");
         // --- Pretty Print ---
+        private readonly By textbox = By.XPath("//tr[@data-id='form-item-container-7']");
         private readonly By prettyPrintPage = By.Id("prettyPrint");
         private readonly By passFailWrapper = By.XPath("//tr[@data-id='form-item-container-2']//*[contains(@fill, '#00ad1d')]");
         private readonly By checkboxWrapper = By.XPath("//tr[@data-id='form-item-container-1']//*[contains(@fill, '#00ad1d')]");
@@ -97,7 +96,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
 
 
 
-        public FormsImpl SelectLocation(String locationName)
+        public FormsImpl SelectLocation(string locationName)
         {
             actions.WaitUntilElementIsDisplayed(locationModal);
             IWebElement option = driver.FindElement(locationOption);
@@ -116,15 +115,14 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public FormsImpl GoToGivenTab(String tabName)
+        public FormsImpl GoToGivenTabWebWebApp(string tabName)
         {
             actions.ClickElementFromList(By.ClassName("webforms-webforms-42"), By.TagName("a"), tabName);
             logs.Logs.Info("User has successfully navigated to tab - " + tabName);
-
             return this;
         }
 
-        public FormsImpl SelectFormAndStatus(String formName, String status)
+        public FormsImpl SelectFormAndStatus(string formName, string status)
         {
             actions.WaitUntilElementIsDisplayed(formsMenu);
             logs.Logs.Info("Forms menu is visible!");
@@ -152,11 +150,10 @@ namespace SiteDocsAutomationProject.implementation.webApp
                     driver.Navigate().Refresh();
                 }
             }
-
             return this;
         }
 
-        public FormsImpl AddFormLabel(String label)
+        public FormsImpl AddFormLabel(string label)
         {
             actions.SendInput(formsLabel, label);
             logs.Logs.Info(label + " label was typed for this form template!");
@@ -173,7 +170,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             IWebElement item1 = SelectFormItem(2);
             item1.FindElement(passAndYesBtn).Click();
-
             return this;
         }
 
@@ -181,23 +177,20 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             IWebElement section = SelectFormItem(1);
             actions.Click(checkboxBtn);
-
             return this;
         }
 
-        public FormsImpl ShortAnswerItem(String shortText)
+        public FormsImpl ShortAnswerItem(string shortText)
         {
             IWebElement item3 = SelectFormItem(6);
             item3.FindElement(shortAnswerHolder).SendKeys(shortText);
-
             return this;
         }
 
-        public FormsImpl LongAnswerItem(String text)
+        public FormsImpl LongAnswerItem(string text)
         {
             IWebElement section = SelectFormItem(3);
             actions.SendInput(longAnswerHolder, text);
-
             return this;
         }
 
@@ -207,7 +200,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             item6.FindElement(selectBtn).Click();
             actions.Click(optionOne);
             actions.Click(doneBtn);
-
             return this;
         }
 
@@ -218,7 +210,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             actions.Click(optionOne);
             actions.Click(optionTwo);
             actions.Click(doneBtn);
-
             return this;
         }
 
@@ -226,7 +217,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             IWebElement item8 = SelectFormItem(18);
             item8.FindElement(passAndYesBtn).Click();
-
             return this;
         }
 
@@ -235,15 +225,13 @@ namespace SiteDocsAutomationProject.implementation.webApp
             IWebElement item9 = SelectFormItem(19);
             item9.FindElements(passAndFailCounterBtn)?.ElementAtOrDefault(0)?.Click();
             item9.FindElements(passAndFailCounterBtn)?.ElementAtOrDefault(1)?.Click();
-
             return this;
         }
 
-        public FormsImpl NumberOnlyItem(String nr)
+        public FormsImpl NumberOnlyItem(string nr)
         {
             IWebElement item10 = SelectFormItem(16);
             item10.FindElement(numberHolder).SendKeys(nr);
-
             return this;
         }
 
@@ -253,7 +241,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             item11.FindElement(selectBtn).Click();
             actions.WaitUntilElementIsDisplayed(selectDateModal);
             actions.Click(okDateBtn);
-
             return this;
         }
 
@@ -262,7 +249,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             IWebElement item12 = SelectFormItem(14);
             item12.FindElement(selectBtn).Click();
             actions.Click(okTimeBtn);
-
             return this;
         }
 
@@ -272,7 +258,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             item13.FindElement(selectBtn).Click();
             actions.Click(adminUserSelect);
             actions.Click(doneBtn);
-
             return this;
         }
 
@@ -283,7 +268,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             actions.Click(adminUserSelect);
             actions.Click(appAccessUserSelect);
             actions.Click(doneBtn);
-
             return this;
         }
 
@@ -291,7 +275,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             IWebElement item15 = SelectFormItem(17);
             item15.FindElement(addLocationBtn).Click();
-
             return this;
         }
 
@@ -299,7 +282,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             IWebElement item16 = SelectFormItem(22);
             actions.WaitUntilElementIsDisplayed(itemImageHolder);
-
             return this;
         }
 
@@ -308,22 +290,20 @@ namespace SiteDocsAutomationProject.implementation.webApp
             actions.Click(viewPdfBtn);
             actions.WaitUntilElementIsDisplayed(pdfDocument);
             actions.Click(closeBtn);
-
             return this;
         }
 
-        public FormsImpl InsertPDFItem(String fileName)
+        public FormsImpl InsertPDFItem(string fileName)
         {
             IWebElement item18 = SelectFormItem(23);
             actions.WaitUntilElementIsDisplayed(item18.FindElement(selectBtn));
             item18.FindElement(selectBtn).Click();
             actions.UploadImageOrFile(uploadPdfHolder, fileName);
             actions.WaitUntilElementIsDisplayed(pdfPageCanvasHolder);
-
             return this;
         }
 
-        public FormsImpl FillOutAllItems(String shortText, String longText, String nr, String fileName)
+        public FormsImpl FillOutAllItems(string shortText, string longText, string nr, string fileName)
         {
             PassOrFailOrNoneItem()
                 .CheckBoxItem()
@@ -342,7 +322,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
                 .ViewImageItem()
                 .ViewPDFItem()
                 .InsertPDFItem(fileName);
-
             return this;
         }
 
@@ -350,13 +329,11 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", driver.FindElement(signAndSaveBtn));
             Thread.Sleep(5000);
-
             logs.Logs.Info("Form was successfully saved as draft!");
-
             return this;
         }
 
-        public FormsImpl ClickAndComment(int nrOfSection, String comment)
+        public FormsImpl ClickAndComment(int nrOfSection, string comment)
         {
             IWebElement section = SelectFormItem(nrOfSection);
             try
@@ -373,7 +350,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public FormsImpl UploadImageAndComment(int nrOfSection, String fileName, String comment)
+        public FormsImpl UploadImageAndComment(int nrOfSection, string fileName, string comment)
         {
             IWebElement section = SelectFormItem(nrOfSection);
             try
@@ -391,7 +368,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             return this;
         }
 
-        public FormsImpl FillOutFollowUpTemplate(String followUpLabel, String shortText, String longText, String nr, String fileName, bool sign)
+        public FormsImpl FillOutFollowUpTemplate(string followUpLabel, string shortText, string longText, string nr, string fileName, bool sign)
         {
             actions.Click(followUpBtn);
             actions.Click(followUpForm);
@@ -427,19 +404,17 @@ namespace SiteDocsAutomationProject.implementation.webApp
                 driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click();
                 actions.Click(appAccessUserSelect);
                 DrawSigniture();
-                Thread.Sleep(5000);
+                Thread.Sleep(2000);
                 actions.Click(closeBtn);
-                actions.WaitUntilElementIsDisplayed(signedFollowUpBtn);
+                actions.ReattemptAndRefreshIsElementDisplayed(signedFollowUpBtn);
                 logs.Logs.Info("User has successfully signed follow up template!");
             }
             else if(!sign) 
             {
                 actions.Click(saveAndReturnBtn);
-                Thread.Sleep(5000);
-                actions.WaitUntilElementIsDisplayed(savedFollowUpBtn);
+                actions.ReattemptAndRefreshIsElementDisplayed(savedFollowUpBtn);
                 logs.Logs.Info("User has successfully saved follow up template!");
             }
-            Thread.Sleep(8000);
             return this;
         }
 
@@ -497,10 +472,11 @@ namespace SiteDocsAutomationProject.implementation.webApp
             actions.SwitchToTab(1);
             try
             {
-
-                var followUp = driver.FindElement(followUpFlag);
+                
+                var followUp = driver.FindElement(textbox);
                 if (followUp.Displayed)
                 {
+                    actions.ReattemptAndRefreshIsElementDisplayed(followUpFlag);
                     actions.Click(followUpFlag);
                     actions.SwitchToTab(2);
                 }
@@ -532,7 +508,6 @@ namespace SiteDocsAutomationProject.implementation.webApp
             actions.IsElementDisplayed(locationWrapper);
             actions.IsElementDisplayed(pdfWrapper);
             logs.Logs.Info("All items in pretty print were checked!");
-
             return this;
         }
 
