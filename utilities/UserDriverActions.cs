@@ -128,14 +128,14 @@ namespace SiteDocsAutomationProject.utilities
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(180));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
                 wait.PollingInterval = TimeSpan.FromSeconds(1);
 
                 return wait.Until(drv => locator.Displayed);
             }
             catch (WebDriverTimeoutException e)
             {
-                throw new Exception($"{locator.ToString()} was not visible!", e);
+                throw new Exception($"{locator} was not visible!", e);
             }
         }
 
@@ -154,7 +154,7 @@ namespace SiteDocsAutomationProject.utilities
                 }
                 catch (Exception e)
                 {
-                    throw new NoSuchElementException("Attempt " + (i + 1) + " to send input failed: " + "\r\n\r\n" +
+                    throw new NoSuchElementException("Attempt " + (i) + " to send input failed: " + "\r\n\r\n" +
                                  e + "\r\n\r\n");
                 }
             }
@@ -223,11 +223,6 @@ namespace SiteDocsAutomationProject.utilities
             string imagePath = DirectoryPaths.GetPath(Directory.UploadFilesPath) + fileName;
             fileUploadButton.SendKeys(imagePath);
             logs.Logs.Info(fileName + " was uploaded successfully!");
-        }
-
-        public void Delay(int milliseconds)
-        {
-            Thread.Sleep(milliseconds);
         }
     }
 }
