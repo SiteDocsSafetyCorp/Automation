@@ -58,7 +58,6 @@ namespace SiteDocsAutomationProject.driver
 
                 ChromeOptions options = new ChromeOptions();
 
-                options.AddArgument("--headless=false");
                 options.AddArgument("--start-maximized");
                 options.AddArgument("--delete-cookies");
                 options.AddArgument("--enable-features=Geolocation");

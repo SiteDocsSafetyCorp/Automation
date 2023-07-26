@@ -39,6 +39,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         private readonly By uploadImageHolder = By.XPath(".//input[@type='file']");
         private readonly By signAndSaveBtn = By.XPath("//button[@data-id='sign-button']");
         private readonly By selectEmployeeModal = By.XPath("//div[@data-id='select-form-item-modal']");
+        private readonly By workersFromMyCompanyBtn = By.XPath("//h5[text()='Workers From My Company']");
         private readonly By saveSignatureBtn = By.XPath("//button[@data-id='save-signature-button']");
         private readonly By passAndYesBtn = By.XPath(".//button[@data-id='form-item-passfail-pass']");
         private readonly By passAndFailCounterBtn = By.XPath(".//button[@data-id='form-item-passfailcounter-increment-button']");
@@ -402,6 +403,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
             if (sign)
             {
                 driver.FindElements(signAndSaveBtn)?.ElementAtOrDefault(1)?.Click();
+                actions.Click(workersFromMyCompanyBtn);
                 actions.Click(appAccessUserSelect);
                 DrawSigniture();
                 Thread.Sleep(2000);
@@ -422,7 +424,7 @@ namespace SiteDocsAutomationProject.implementation.webApp
         {
             actions.Click(signAndSaveBtn);
             actions.WaitUntilElementIsDisplayed(selectEmployeeModal);
-
+            actions.Click(workersFromMyCompanyBtn);
             logs.Logs.Info("Select Employee modal was opened successfully!");
             actions.Click(appAccessUserSelect);
             DrawSigniture();

@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 /**
@@ -50,7 +51,7 @@ namespace SiteDocsAutomationProject.utilities
             }
             catch (ElementNotInteractableException e)
             {
-                throw new Exception($"Failed to click the {locator.ToString} element!", e);
+                throw new Exception($"Failed to click the {locator} element!", e);
 
             }
         }
@@ -66,7 +67,7 @@ namespace SiteDocsAutomationProject.utilities
             }
             catch (ElementNotInteractableException e)
             {
-                throw new Exception($"Failed to click the {locator.ToString} element!", e);
+                throw new Exception($"Failed to click the {locator} element!", e);
             }
         }
 
@@ -75,15 +76,15 @@ namespace SiteDocsAutomationProject.utilities
         {
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
                 wait.PollingInterval = TimeSpan.FromSeconds(1);
 
                 return wait.Until(drv => drv.FindElement(locator).Displayed);
             }
             catch (WebDriverTimeoutException e)
             {
-                throw new Exception($"{locator.ToString} was not visible!", e);
-                
+                throw new Exception($"{locator} was not visible!", e);
+
             }
         }
 
@@ -144,7 +145,7 @@ namespace SiteDocsAutomationProject.utilities
         {
 
             driver.FindElement(locator).Clear();
-           
+
             for (int i = 0; i < nrOfRetries; i++)
             {
                 try
@@ -219,10 +220,29 @@ namespace SiteDocsAutomationProject.utilities
         // This method is used to upload desired file/image from uploadFiles folder 
         public void UploadImageOrFile(By locator, string fileName)
         {
-            IWebElement fileUploadButton = driver.FindElement(locator);    
+            IWebElement fileUploadButton = driver.FindElement(locator);
             string imagePath = DirectoryPaths.GetPath(Directory.UploadFilesPath) + fileName;
             fileUploadButton.SendKeys(imagePath);
             logs.Logs.Info(fileName + " was uploaded successfully!");
+        }
+
+        // This method is used to find all options with same locator and select random one
+        public string SelectRandomOption(IReadOnlyList<IWebElement> locator)
+        {
+            Actions action = new Actions(driver);
+
+            if (locator.Count > 0)
+            {
+                var random = new Random();
+                var randomOption = locator[random.Next(locator.Count)];
+                action.Click(randomOption).Perform();
+                logs.Logs.Info($"Selected a random option: '{randomOption.Text}'");
+                return randomOption.Text;
+            }
+            else
+            {
+                throw new Exception("There are no available options to select!");
+            }
         }
     }
 }
